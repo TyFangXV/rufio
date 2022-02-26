@@ -13,3 +13,19 @@ export type ITheme = {
     success: string;
     
 }
+
+
+export type NotifProfile = {
+    id: string;
+    name: string;
+    profile_pic : string
+}
+
+export type Notif = {
+    id: string;
+    content : string;
+    idOfSender : string;
+    type : string;
+    profile : NotifProfile
+    time : string;
+}
