@@ -2,39 +2,47 @@ import Request from './notification/request';
 import React from 'react';
 import { Notif } from '../utils/intefere';
 import Message from './notification/message';
+import AnimationContainer from './notification/animationContainer';
 
 type dataProps = {
   data: Notif[];
+  onClick: (id: string) => void;
 };
 
-const Notification: React.FC<dataProps> = ({ data }) => {
+const Notification: React.FC<dataProps> = ({ data, onClick }) => {
   return (
     <div>
       {data.map((item, index) => {
         switch (item.type) {
           case 'request':
             return (
-              <Request
-                key={index}
-                profile={item.profile}
-                content={item.content}
-                time={item.time}
-                id={item.id}
-                type={''}
-                idOfSender={item.idOfSender}
-              />
+              <AnimationContainer>
+                <Request
+                  onclick={onClick}
+                  key={index}
+                  profile={item.profile}
+                  content={item.content}
+                  time={item.time}
+                  id={item.id}
+                  type={''}
+                  idOfSender={item.idOfSender}
+                />
+              </AnimationContainer>
             );
           case 'message':
             return (
-              <Message
-                key={index}
-                profile={item.profile}
-                content={item.content}
-                time={item.time}
-                id={item.id}
-                idOfSender={item.idOfSender}
-                type={''}
-              />
+              <AnimationContainer>
+                <Message
+                  onclick={onClick}
+                  key={index}
+                  profile={item.profile}
+                  content={item.content}
+                  time={item.time}
+                  id={item.id}
+                  idOfSender={item.idOfSender}
+                  type={''}
+                />
+              </AnimationContainer>
             );
           default:
             return (

@@ -28,4 +28,5 @@ export type Notif = {
     type : string;
     profile : NotifProfile
     time : string;
+    [key: string]: any;
 }

@@ -2,11 +2,15 @@ import { ActionIcon, Avatar, Button, Container, Text } from '@mantine/core';
 import React from 'react';
 import { Notif } from '../../utils/intefere';
 import { AiFillCloseCircle } from 'react-icons/ai';
-const Request: React.FC<Notif> = ({ profile, content, time, id }) => {
+import Theme from '../../styles/home.theme';
+
+
+
+const Request: React.FC<Notif> = ({ profile, content, time, id, onclick }) => {
   return (
     <Container
       style={{
-        backgroundColor: '#002531',
+        border : `1px solid ${Theme.outline}`,
         borderRadius: '5px',
         padding: '10px',
         marginBottom: '2vh',
@@ -14,11 +18,11 @@ const Request: React.FC<Notif> = ({ profile, content, time, id }) => {
     >
       <div>
         <ActionIcon
+        onClick={() => onclick(id)}
           style={{
             position: 'absolute',
             right: '0',
             marginTop: '-10px',
-            marginRight: 20,
           }}
         >
           <AiFillCloseCircle />

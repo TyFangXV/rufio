@@ -1,34 +1,63 @@
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { notifications, showNotification } from '../utils/state/general'
-import Notification from '../components/notification'
-import {Modal } from '@mantine/core'
-import Theme from '../styles/home.theme'
+import { useRecoilState } from 'recoil';
+import {
+  notifications,
+  showFriendRequestTab,
+  showNotification,
+} from '../utils/state/general';
+import Notification from '../components/notification';
+import { Modal } from '@mantine/core';
+import Theme from '../styles/home.theme';
+import { Notif } from '../utils/intefere';
+import FriendReq from './friendReq';
 
+const NotificationPopUp = () => {
+  const [showNotif, setshowNotif] = useRecoilState<boolean>(showNotification);
+  const [notification, setNotification] =
+    useRecoilState<Notif[]>(notifications);
 
+  const removeNotification = (id: string) => {
+    setNotification(notification.filter((notif) => notif.id !== id));
+  };
 
-const NotificationPopUp = ()=>{
-    const [showNotif, setshowNotif] = useRecoilState<boolean>(showNotification)
-    const notification = useRecoilValue(notifications);
+  return (
+    <Modal
+    styles={{ modal: { backgroundColor: Theme.secondary } }}
+      opened={showNotif}
+      onClose={() => setshowNotif(false)}
+      title="Notification Center"
+      overflow="inside"
+    >
+      <Notification data={notification} onClick={removeNotification} />
+    </Modal>
+  );
+};
 
-    return(
-        <Modal
-        style={{color : Theme.secondary}}
-        opened={showNotif}
-        onClose={() => setshowNotif(false)}
-        title="Notification Center"
-        overflow='inside'
-      >
-        <Notification data={notification}/>
-      </Modal>
-    )
-}
+const FriendRequest = () => {
+  const [showFriendReq, setshowFriendReq] =
+    useRecoilState<boolean>(showFriendRequestTab);
 
-const PopUp = ()=>{
-    return(
-        <>
-        <NotificationPopUp/>
-        </>
-    )
-}
+  return (
+    <Modal
+      styles={{ modal: { backgroundColor: Theme.secondary } }}
+      opened={showFriendReq}
+      onClose={() => setshowFriendReq(false)}
+      title="Add your Friends"
+      overflow="inside"
+    >
+      <div>
+        <FriendReq />
+      </div>
+    </Modal>
+  );
+};
+
+const PopUp = () => {
+  return (
+    <>
+      <NotificationPopUp />
+      <FriendRequest />
+    </>
+  );
+};
 
 export default PopUp;
