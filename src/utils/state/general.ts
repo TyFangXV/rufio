@@ -61,3 +61,9 @@ export const showFriendRequestTab = atom({
 })
 
 
+export const iSNotificationOn = atom({
+    key: 'isNotificationOn',
+    default: true,
+})
+
+

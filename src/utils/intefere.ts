@@ -30,3 +30,13 @@ export type Notif = {
     time : string;
     [key: string]: any;
 }
+
+export type User = {
+    id: number;
+    name: string;
+    email: string;
+    username : string;
+    password: string;
+    profile_pic : string
+    [key: string]: any;
+}

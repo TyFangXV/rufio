@@ -20,11 +20,11 @@ const Tools = () => {
       }}
     >
       <Button onClick={() => setshowFriendReq(!showFriendReq)}>
-        <IoIosPerson fontSize={'1.5vw'} style={{ paddingRight: '0px' }} />
+        <IoIosPerson fontSize={'1.5vw'} />
         Friends
       </Button>
       <Button onClick={() => setshowNotif(!showNotif)}>
-        <IoNotifications fontSize={'1.2vw'} style={{ paddingRight: '5px' }} />
+        <IoNotifications fontSize={'1.2vw'} />
         Notification
       </Button>
     </Container>
