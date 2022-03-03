@@ -1,8 +1,8 @@
-import Request from './notification/request';
+import Request from '../notification/request';
 import React from 'react';
-import { Notif } from '../utils/intefere';
-import Message from './notification/message';
-import AnimationContainer from './notification/animationContainer';
+import { Notif } from '../../utils/intefere';
+import Message from '../notification/message';
+import AnimationContainer from '../notification/animationContainer';
 
 type dataProps = {
   data: Notif[];

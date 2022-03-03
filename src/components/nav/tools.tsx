@@ -1,10 +1,10 @@
 import { Button, Container } from '@mantine/core';
 import React from 'react';
-import Theme from '../styles/home.theme';
+import Theme from '../../styles/home.theme';
 import { IoNotifications } from 'react-icons/io5';
 import { IoIosPerson } from 'react-icons/io';
 import { useRecoilState } from 'recoil';
-import { showFriendRequestTab, showNotification } from '../utils/state/general';
+import { showFriendRequestTab, showNotification } from '../../utils/state/general';
 const Tools = () => {
   const [showNotif, setshowNotif] = useRecoilState<boolean>(showNotification);
   const [showFriendReq, setshowFriendReq] =

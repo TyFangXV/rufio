@@ -1,6 +1,6 @@
 import { Button, Container, Input, InputWrapper, TextInput } from '@mantine/core';
 import { MdPersonAddAlt1 } from 'react-icons/md';
-import Theme from '../styles/home.theme';
+import Theme from '../../styles/home.theme';
 
 const FriendReq = () => (
     <Container>

@@ -1,8 +1,8 @@
 import { Container } from '@mantine/core';
-import Theme from '../styles/home.theme';
-import { User } from '../utils/intefere';
+import Theme from '../../styles/home.theme';
+import { User } from '../../utils/intefere';
 import Tools from './tools';
-import UserProfile from './user/user-profile';
+import UserProfile from '../user/user-profile';
 
 //mock data
 const user: User = {
@@ -28,6 +28,7 @@ const Nav = () => (
     <div style={{ paddingTop: '2vh', position: 'absolute', left: '0' }}>
       <Tools />
     </div>
+    
     <div style={{position : "absolute", bottom : "0"}}>
       <UserProfile profile_pic={user.profile_pic} username={user.username} id={0} name={''} email={''} password={''}/>
     </div>

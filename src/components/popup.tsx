@@ -4,11 +4,11 @@ import {
   showFriendRequestTab,
   showNotification,
 } from '../utils/state/general';
-import Notification from '../components/notification';
+import Notification from './nav/notification';
 import { Modal } from '@mantine/core';
 import Theme from '../styles/home.theme';
 import { Notif } from '../utils/intefere';
-import FriendReq from './friendReq';
+import FriendReq from './nav/friendReq';
 
 const NotificationPopUp = () => {
   const [showNotif, setshowNotif] = useRecoilState<boolean>(showNotification);

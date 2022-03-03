@@ -1,6 +1,6 @@
 import { Container } from '@mantine/core'
 import type { NextPage } from 'next'
-import Nav from '../components/nav'
+import Nav from '../components/nav/nav'
 import PopUp from '../components/popup'
 import Theme from '../styles/home.theme'
 
