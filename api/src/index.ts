@@ -4,8 +4,10 @@ import {Server} from 'socket.io'
 import cors from 'cors'
 
 import authRouter from './middleware/auth/index'
-const expressApp:Application = express();
+import './middleware/auth/strategy/DiscordStrategy'
+import passport from 'passport'
 
+const expressApp:Application = express();
 const server = http.createServer(expressApp);
 
 const io = new Server(server, {
@@ -16,6 +18,7 @@ const io = new Server(server, {
     }
 });
 
+expressApp.use(passport.initialize());
 expressApp.use(cors())
 expressApp.use("/auth", authRouter)
 
