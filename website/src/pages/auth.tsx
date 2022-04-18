@@ -8,7 +8,7 @@ const Auth:NextPage = () => {
     const router = useRouter();
 
     useEffect(() => {
-
+        window.XMLHttpRequestEventTarget
     })
 
     return (
