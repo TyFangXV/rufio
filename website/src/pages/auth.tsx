@@ -5,7 +5,6 @@ import React from "react";
 
 const Auth:NextPage = () => {
     const router = useRouter();
-
     return(
         <Container>
             <div>

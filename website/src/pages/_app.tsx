@@ -1,18 +1,19 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
 import { MantineProvider } from '@mantine/core';
-import type { AppProps } from 'next/app'
-import { Provider } from 'react-redux';
-import store from '../utils/redux/store';
+import type { AppProps } from 'next/app';
+import { RecoilRoot } from 'recoil';
+import { AccountProvider } from '../utils/context/AccountProvider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
-      <MantineProvider>
-        <Component {...pageProps} />
-      </MantineProvider>     
-    </Provider>
-
-  )
+    <AccountProvider>
+      <RecoilRoot>
+        <MantineProvider>
+          <Component {...pageProps} />
+        </MantineProvider>
+      </RecoilRoot>
+    </AccountProvider>
+    );      
 }
 
-export default MyApp
+export default MyApp;

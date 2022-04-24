@@ -1,8 +1,6 @@
 import { Avatar, Card, Divider, Header, Title } from '@mantine/core';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { AccountType } from '../../../types';
-import { RootState } from '../../utils/redux/reducers';
 import styles from '../../styles/components/AccountOverview.module.css';
 import KeyDataViewer from './keyDataView';
 
@@ -23,13 +21,9 @@ const AccountOverviewCard: React.FC<AccountType> = (AccountData) => {
   );
 };
 
-const AccountOverview: React.FC = () => {
-  const AccountData = useSelector((state: RootState) => state.Account);
-
+const AccountOverview: React.FC<AccountType> = (AccountData) => {
   return (
     <Card className={styles.container}>
-      {AccountData.isSignIn ? (
-        <>
           <AccountOverviewCard
             id={AccountData.id}
             username={AccountData.username}
@@ -37,12 +31,6 @@ const AccountOverview: React.FC = () => {
             email={AccountData.email}
             isSignIn={AccountData.isSignIn}
           />
-        </>
-      ) : (
-        <>
-          <h1>You need to be Signed In</h1>
-        </>
-      )}
     </Card>
   );
 };

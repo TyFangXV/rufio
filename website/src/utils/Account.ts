@@ -1,4 +1,4 @@
-import { Dispatch } from "@reduxjs/toolkit";
+
 import axios from "axios";
 import Settings from '../utils/constant/index'
 
@@ -66,5 +66,19 @@ const initializeAccount = async(code:string) => {
     }
 
 }
+
+
+export const SignIn = async () => {
+    const accountDetailsFromLocalStorage = window.localStorage.getItem('account');
+    //if there isnt any code then signin using the account details from the local storage
+    if (accountDetailsFromLocalStorage) {
+      const account = await fetchAccountFromServer(
+        JSON.parse(accountDetailsFromLocalStorage as string)
+      );
+      return account;
+    }
+  
+    return null;
+  };
 
 export default initializeAccount;

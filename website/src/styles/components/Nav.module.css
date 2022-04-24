@@ -1,0 +1,20 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    background-color: rgb(42, 42, 42);
+    max-width: 15vw;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+
+.logo{
+    color: white;
+    font-size: 2vw;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    margin-left: 2px;
+    border-bottom: 3px solid white;
+}
