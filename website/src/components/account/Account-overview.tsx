@@ -14,8 +14,8 @@ const AccountOverviewCard: React.FC<AccountType> = (AccountData) => {
          <Avatar src={`https://cdn.discordapp.com/avatars/${AccountData.id}/${AccountData.profilePic}.png`} size={100}/>
       </div>
         <div className={styles.accountInfo}>
-         <KeyDataViewer id={AccountData.username} data={AccountData.username} keyname={"username"}/>  
-         <KeyDataViewer id={AccountData.email} data={AccountData.email} keyname={"Email"}/>     
+         <KeyDataViewer  data={AccountData.username} keyname={"username"}/>  
+         <KeyDataViewer  data={AccountData.email} keyname={"Email"}/>     
         </div>  
     </div>
   );

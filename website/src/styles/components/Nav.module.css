@@ -18,3 +18,52 @@
     margin-left: 2px;
     border-bottom: 3px solid white;
 }
+
+.AccountViewer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.ProfileViewer{
+    cursor: pointer;
+}
+
+
+
+.overlay{
+    background-color: rgba(0, 0, 0, 0.500);
+    min-width: 50px;
+    min-height: 50px;
+    position: absolute;
+    display:none;
+    z-index: 1;
+}
+
+.ProfileViewer:hover .overlay{
+    display: block;
+}
+.overlay p{
+    color: white;
+    font-size: .75vw;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+.AccountModel{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    align-items: center;   
+}
+
+.Modal{
+    background-color: red;
+    
+}

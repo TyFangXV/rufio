@@ -16,7 +16,7 @@ const Home: NextPage = () => {
     {
     const account = await SignIn();
     setAccount({id: account.id, username: account.username, email: account.email, profilePic: account.avatar, isSignIn: true});
-    console.log("ran");
+    console.log(account);
     }
   };
 

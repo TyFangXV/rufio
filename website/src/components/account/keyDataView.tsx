@@ -1,17 +1,17 @@
-import { Badge } from "@mantine/core";
+import styles from '../../styles/components/KeyDataViewer.module.css';
 import React from "react";
 
 type Props = {
-    id:string,
     keyname:string,
     data:string,
+    style? : React.CSSProperties
 }
 
-const KeyDataViewer:React.FC<Props> = ({id, keyname, data}) => {
+const KeyDataViewer:React.FC<Props> = ({keyname, data, style}) => {
     return (
-        <Badge style={{background : "white", border : "none", color : "black", margin : 10}} size={"lg"}>
-            {keyname} : {data}
-        </Badge>
+        <div className={styles.container} style={style}>
+           <p>{keyname} : {data}</p>
+        </div>
     );
 }
 
