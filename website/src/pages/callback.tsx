@@ -1,30 +1,37 @@
 import { Button } from "@mantine/core";
-import { Dispatch } from "@reduxjs/toolkit";
-import { NextRouter, Router, useRouter } from "next/router";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import getAccountDetail from '../utils/Account'
-import { UpdateAccount } from "../utils/redux/reducers/Account";
+import { NextRouter, useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import {getAccountInfo, setUp} from '../utils/Account';
 
 
 //get the account deatils from the server and store them 
-const accountHandler = async(code:string, dispacter:Dispatch) => {
-    const {account, tokens} = await getAccountDetail(code);
-    if (account) {
-        window.localStorage.setItem("account", JSON.stringify(tokens));
-        dispacter(UpdateAccount({id : account.id, username : account.username, email : account.email, profilePic : account.avatar}));
-        return account;
+const accountHandler = async(code:string) => {
+    try {
+        const res = await setUp(code);
+        if(res)
+        {
+            const {account, tokens} = res;
+            if (account) 
+            {
+                window.localStorage.setItem("account", JSON.stringify(tokens));
+                return account;
+            }      
+            
+            return null;
+        }
+        return null;        
+    } catch (error) {
+        console.log(error)
+        return null
     }
-    return null;
+
 }
 
 
 const Callback: React.FC = () => {
     const [message, setMessage] = useState<string>("Signing in...");
+    const [send, setSend] = useState<Boolean>(false);
     const router:NextRouter = useRouter();
-    const dispatch = useDispatch();
     const code = router.query.t;
     
     console.log(code);
@@ -34,19 +41,24 @@ const Callback: React.FC = () => {
 
         if(code)
         {
-            accountHandler(code as string, dispatch)
-                    .then(account => {
-                        if (account) {
-                            router.push("/");
-                        } else {
-                            setMessage("Something went wrong, please try again later or try to sign in again");
-                        }
-            })
+            if(!send)
+            {
+                accountHandler(code as string)
+                        .then(account => {
+                            if (account) {
+                                router.push("/");
+                            } else {
+                                setMessage("Something went wrong, please try again later or try to sign in again");
+                            }
+                });  
+                setSend(true)              
+            }
+
         }else{
             setMessage("No code found, please try again later");
         }
 
-    }, [message])
+    }, [message, code, router])
 
   return (
     <div>

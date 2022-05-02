@@ -33,54 +33,86 @@ export const getAccountInfo = async (token: string) => {
     });
     return data;
   } catch (error) {
-    console.log(error);
-    
     return null;
   }
 };
 
-// main functions
-export const fetchAccountFromServer = async (
+/*
+check if the token has expired, if yes then refresh the token 
+and run the funtion again but if not then return the account details
+*/
+export const fetchAccountFromServer = async (accountDetailsFromLocalStorage: any) => {
+  if (accountDetailsFromLocalStorage.expires_in < Date.now()) 
+  {
+    try {
+        const account = await getAccountInfo(accountDetailsFromLocalStorage.access_token);
+        if (account) {
+          return account;
+        } else {
+          return false;
+        }      
+    } catch (error) {
+      return false
+    }
+
+  } else {
+    return 2002;
+  }
+};
+
+
+export const refreshTokens = async (
   accountDetailsFromLocalStorage: any
 ) => {
-  if (accountDetailsFromLocalStorage.expires_in < Date.now()) {
-    const account = await getAccountInfo(
-      accountDetailsFromLocalStorage.access_token
-    );
-    if (account) {
-      return account;
-    } else {
-      return false;
-    }
+  const res = await axios.get(
+    `${Settings.ApiDevUrl}/auth/discord/refresh?refresh_token=${accountDetailsFromLocalStorage.refresh_token}`,
+  )
+  if (res.status === 200) {
+    window.localStorage.setItem("account", JSON.stringify(res.data));
+    return res.data;
   } else {
-    return accountDetailsFromLocalStorage.expires_in < Date.now();
+    return false;
   }
 };
-
-const initializeAccount = async (code: string) => {
-  try {
-    const accountDetails = await getAccountDetail(code);
-    return accountDetails;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 
     
-
+/*
+ Get the tokens from the local storage annd authorize with the access token 
+ but if the token has expired it would refresh the token and you are required to run the function again
+*/
 export const SignIn = async () => {
   const accountDetailsFromLocalStorage = window.localStorage.getItem('account');
-  //if there isnt any code then signin using the account details from the local storage
   if (accountDetailsFromLocalStorage) {
-     const account = await fetchAccountFromServer(
-        JSON.parse(accountDetailsFromLocalStorage as string)
-      );
+    try {
+      const account = await fetchAccountFromServer(JSON.parse(accountDetailsFromLocalStorage as string));
 
-    return JSON.parse(JSON.stringify(account));
+      if(account === 2002)
+      {
+        return null;
+      }else
+      {
+        return JSON.parse(JSON.stringify(account));
+      }      
+    } catch (error) {
+      return null;
+    }
+
   }
 
   return null;
 };
 
-export default initializeAccount;
+
+
+/* */
+export const setUp = async(code:string) => {
+  try {
+    const tokens = await getAccountDetail(code);
+    return tokens;
+  } catch (error) {
+    console.log(error)
+    return null;
+  }
+}
+
+
