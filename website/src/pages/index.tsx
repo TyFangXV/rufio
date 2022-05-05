@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Title } from '@mantine/core';
+
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Nav from '../components/account/Nav';
 import styles from '../styles/Home.module.css';
 import {
@@ -16,30 +16,38 @@ const Home: NextPage = () => {
   const [Account, setAccount]:any = useContext(AccountContext);
 
   const fetchAccount = async () => {
-    if(!Account.isSignIn) 
+    if(!Account.account.isSignIn && Account.guilds.length === 0) {
     {
-      const account = await SignIn();       
+      const {account, guilds} = await SignIn();   
       if(account)
       {
-        setAccount({id: account.id, username: account.username, email: account.email, profilePic: account.avatar, isSignIn: true});
+        const organizedAccountData = {id: account.id, username: account.username, email: account.email, profilePic: account.avatar, isSignIn: true};
+        const organizedGuildsData = guilds.filter((guild:any) => guild.owner === true);
+
+        setAccount({account: organizedAccountData, guilds: organizedGuildsData});    
       }else{
         router.push("/auth")
       }
     }
   };
+}
 
+  
   useEffect(() => {
-      fetchAccount();
-  }, [Account])
+    fetchAccount();
+  }, [])
+
+
+
 
 
   return (
     <div className={styles.container}>
       {
-        Account.isSignIn ?
+        Account.account.isSignIn ?
         (
           <div>
-            <Nav id={Account.id} username={Account.username} profilePic={Account.profilePic} email={Account.email} isSignIn={true}/>
+            <Nav Account={Account}/>
           </div>
         ) : (
           <div>

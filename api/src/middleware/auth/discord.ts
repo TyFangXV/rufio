@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as dotenv from 'dotenv'
 import axios from "axios";
+import { decrypt } from "../../utils/encryption";
 
 
 const router = Router();
@@ -20,6 +21,22 @@ const getAccountInfo = async (accessToken: string) => {
         return null;
     }
 };
+
+
+const getAccountGuilds = async(accessToken: string) => {
+    try {
+        const { data } = await axios.get(`https://discord.com/api/v9/users/@me/guilds`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+    }
+    catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
 
 
 
@@ -49,6 +66,7 @@ router.get("/callback", async(req, res) => {
             //get the account info and filter the data to send to the client 
             const {access_token} = tokens;
             const accountInfo = await getAccountInfo(access_token);
+            const guilds = await getAccountGuilds(access_token);
             
             const filteredData = {
                 tokens : {
@@ -56,7 +74,8 @@ router.get("/callback", async(req, res) => {
                 },
                 account : {
                     ...accountInfo
-                }
+                },
+                guilds
             }
 
             res.send(filteredData);
@@ -75,6 +94,32 @@ router.get("/callback", async(req, res) => {
     }
 })
 
+
+router.get("/getUserData" , async(req, res) => {
+    let { access_token } = req.headers;
+    
+    if (!access_token) {
+        res.status(401).json({ message: "No token, authorization denied" });
+        return;
+    }
+    
+    try {
+        access_token = decrypt(access_token as string);
+        const { data:AccountData } = await axios.get(`https://discord.com/api/v9/users/@me`, {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
+        });
+        const {data:Guilds} = await axios.get(`https://discord.com/api/v9/users/@me/guilds`, {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+            },
+        });
+        res.status(200).json({AccountData, Guilds});
+    } catch (error:any) {
+        res.status(500).json({ message: error.message });
+    }
+})
 
 router.get("/refresh", async(req, res) => {
     const { refresh_token } = req.query;
@@ -95,9 +140,8 @@ router.get("/refresh", async(req, res) => {
                 })
 
                 res.send(tokens);            
-        } catch (error:any){
-            console.log(error);
-            
+        } 
+        catch (error:any){
              res.status(500).send(error.message)
         }
 

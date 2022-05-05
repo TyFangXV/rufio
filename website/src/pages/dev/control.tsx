@@ -50,11 +50,9 @@ const ControlCenter: React.FC = () => {
         <br/>
         <Button onClick={async() => {
             const res = await refreshTokens(tokens);
-            console.log(res)
             if(res)
             {
                 setTokens(res);
-                console.log(res)
                 setMessage("tokens updated");
                 window.localStorage.setItem("account", JSON.stringify(res));
             }else{

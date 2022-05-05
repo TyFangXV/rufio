@@ -5,3 +5,13 @@ export type AccountType = {
     email: string;
     isSignIn: boolean;
 };
+
+
+
+export type GuildType = {
+    id: string;
+    name: string;
+    icon: string;
+    owner: boolean;
+    permissions: string;
+}

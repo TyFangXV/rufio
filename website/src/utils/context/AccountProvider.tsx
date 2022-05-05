@@ -1,12 +1,20 @@
 import { useState, createContext } from "react";
-import { AccountType } from "../../../types";
+import { AccountType, GuildType } from "../../../types";
 
-const defaultData:AccountType = {
-    id: "",
-    username: "",
-    email: "",
-    profilePic: "",
-    isSignIn: false,
+type AccountInfoAtomProps = {
+    account: AccountType;
+    guilds : GuildType[];
+}
+
+const defaultData:AccountInfoAtomProps = {
+    account : {
+        id: "",
+        username: "",
+        profilePic: "",
+        email: "",
+        isSignIn: false,
+    },
+    guilds : []
 }
 
 const AccountContext = createContext({});

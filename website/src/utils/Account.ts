@@ -1,5 +1,8 @@
 import axios from 'axios';
+import { sign } from 'crypto';
+import { Dispatch } from 'react';
 import Settings from '../utils/constant/index';
+import { encrypt } from './encryption';
 
 type TokenType = {
   access_token: string;
@@ -37,6 +40,21 @@ export const getAccountInfo = async (token: string) => {
   }
 };
 
+const getAccountGuilds = async(accessToken: string) => {
+  try {
+      const { data } = await axios.get(`https://discord.com/api/v9/users/@me/guilds`, {
+          headers: {
+              Authorization: `Bearer ${accessToken}`
+          }
+      });
+      return data;
+  }
+  catch (error) {
+      console.error(error);
+      return null;
+  }
+};
+
 /*
 check if the token has expired, if yes then refresh the token 
 and run the funtion again but if not then return the account details
@@ -45,9 +63,15 @@ export const fetchAccountFromServer = async (accountDetailsFromLocalStorage: any
   if (accountDetailsFromLocalStorage.expires_in < Date.now()) 
   {
     try {
-        const account = await getAccountInfo(accountDetailsFromLocalStorage.access_token);
-        if (account) {
-          return account;
+
+        const {data: {AccountData, Guilds}} = await axios.get(`${Settings.ApiDevUrl}/auth/discord/getUserData`, {
+            headers: {
+              access_token : encrypt(accountDetailsFromLocalStorage.access_token)
+            }
+        })
+
+        if (AccountData && Guilds) {
+          return {account : AccountData, guilds : Guilds};
         } else {
           return false;
         }      
@@ -82,10 +106,10 @@ export const refreshTokens = async (
 */
 export const SignIn = async () => {
   const accountDetailsFromLocalStorage = window.localStorage.getItem('account');
-  if (accountDetailsFromLocalStorage) {
+  if (accountDetailsFromLocalStorage) 
+  {
     try {
-      const account = await fetchAccountFromServer(JSON.parse(accountDetailsFromLocalStorage as string));
-
+      const account  = await fetchAccountFromServer(JSON.parse(accountDetailsFromLocalStorage as string));
       if(account === 2002)
       {
         return null;
@@ -96,7 +120,6 @@ export const SignIn = async () => {
     } catch (error) {
       return null;
     }
-
   }
 
   return null;
@@ -110,9 +133,6 @@ export const setUp = async(code:string) => {
     const tokens = await getAccountDetail(code);
     return tokens;
   } catch (error) {
-    console.log(error)
     return null;
   }
 }
-
-

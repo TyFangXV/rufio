@@ -10,18 +10,18 @@ const accountHandler = async(code:string) => {
         const res = await setUp(code);
         if(res)
         {
-            const {account, tokens} = res;
+            const {account, tokens, guilds} = res;
+     
             if (account) 
             {
                 window.localStorage.setItem("account", JSON.stringify(tokens));
-                return account;
+                return {account, guilds};
             }      
             
             return null;
         }
         return null;        
     } catch (error) {
-        console.log(error)
         return null
     }
 
@@ -32,9 +32,7 @@ const Callback: React.FC = () => {
     const [message, setMessage] = useState<string>("Signing in...");
     const [send, setSend] = useState<Boolean>(false);
     const router:NextRouter = useRouter();
-    const code = router.query.t;
-    
-    console.log(code);
+    const code = router.query.code;
     
 
     useEffect(() => {

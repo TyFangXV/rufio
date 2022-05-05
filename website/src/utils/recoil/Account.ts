@@ -1,14 +1,22 @@
 import { atom } from "recoil";
-import { AccountType } from "../../../types";
+import { AccountType, GuildType } from "../../../types";
 
-export const AccountInfoAtom = atom<AccountType>({
+
+type AccountInfoAtomProps = {
+    account: AccountType;
+    guilds : GuildType[];
+}
+export const AccountInfoAtom = atom<AccountInfoAtomProps>({
     key: "AccountData",
     default: {
-        id: "",
-        username: "",
-        email : "",
-        profilePic : "",
-        isSignIn : false
+        account : {
+            id: "",
+            username: "",
+            profilePic: "",
+            email: "",
+            isSignIn: false,
+        },
+        guilds : []
     }
 })
 
