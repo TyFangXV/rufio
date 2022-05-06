@@ -3,7 +3,8 @@ import React, { useContext, useEffect } from "react";
 import Nav from "../../components/account/Nav";
 import { SignIn } from "../../utils/Account";
 import { AccountContext } from "../../utils/context/AccountProvider";
-
+import styles from '../../styles/page/challenges.module.css';
+import Post from "../../components/post";
 const Challenges:React.FC = () => {
     const router = useRouter();
     const [Account, setAccount]:any = useContext(AccountContext);
@@ -32,9 +33,11 @@ const Challenges:React.FC = () => {
   
   
     return (
-        <div>
+        <div className={styles.container}>
             <Nav Account={Account}/>
-            
+            <div>
+               <Post/>
+            </div>
         </div>
     )
 }
