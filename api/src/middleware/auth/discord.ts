@@ -2,7 +2,8 @@ import { Router } from "express";
 import * as dotenv from 'dotenv'
 import axios from "axios";
 import { decrypt } from "../../utils/encryption";
-
+import accountModal from '../../modal/Account';
+import { MixedAccountType } from "../../../Types";
 
 const router = Router();
 dotenv.config();
@@ -39,8 +40,31 @@ const getAccountGuilds = async(accessToken: string) => {
 
 
 
+const saveAccount = async (accountData: MixedAccountType) => {
+    try {
+        let {account, guilds} = accountData;
+        let filtredGuilds = guilds.map(guild => {
+            return {
+                id: guild.id,
+                ownerID: guild.owner ? account.id : null,
+                permissions: guild.permissions,
+                owner : guild.owner
+            }
+        })
+        
+       const DBStatus= await accountModal.create({
+              email: account.email,
+                username: account.username,
+                _id : account.id,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                guilds : filtredGuilds
+        });
 
-
+    } catch (error) {
+        
+    }
+}
 
 
 router.get("/callback", async(req, res) => {

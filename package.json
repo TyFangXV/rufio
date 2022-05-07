@@ -1,0 +1,25 @@
+{
+  "name": "rufio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test-api" : "cd api && yarn dev",
+    "test-frontend" : "cd website && yarn dev",
+    "test-all" : "yarn test-api && yarn test-frontend",
+    "build-api-run" : "cd api && yarn prod-build",
+    "build-site" : "cd website && yarn build",
+    "build-all" : "yarn build-api-run && yarn build-site"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TyFangXV/rufio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TyFangXV/rufio/issues"
+  },
+  "homepage": "https://github.com/TyFangXV/rufio#readme"
+}
