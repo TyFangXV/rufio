@@ -112,12 +112,14 @@ export const SignIn = async () => {
       const account  = await fetchAccountFromServer(JSON.parse(accountDetailsFromLocalStorage as string));
       if(account === 2002)
       {
+        console.log("error")
         return null;
       }else
       {
         return JSON.parse(JSON.stringify(account));
       }      
     } catch (error) {
+      console.log(error)
       return null;
     }
   }

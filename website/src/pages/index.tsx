@@ -16,9 +16,13 @@ const Home: NextPage = () => {
   const [Account, setAccount]:any = useContext(AccountContext);
 
   const fetchAccount = async () => {
+    console.log(Account.account.isSignIn, Account.guilds.length);
+    
     if(!Account.account.isSignIn && Account.guilds.length === 0) {
     {
+      console.log(await SignIn());
       const {account, guilds} = await SignIn();   
+      
       if(account)
       {
         const organizedAccountData = {id: account.id, username: account.username, email: account.email, profilePic: account.avatar, isSignIn: true};

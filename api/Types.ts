@@ -18,4 +18,5 @@ export type GuildType = {
 export type MixedAccountType = {
     account : AccountType;
     guilds : GuildType[];
+    [key:string]: any
 }

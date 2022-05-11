@@ -58,7 +58,23 @@
 
 <br/>
 
-   
+ - - -
+
+> ## How will the website use the data?
+
+<br/>
+
+    * The website will use the data to create a user account
+    
+    * The website will use the data for the following purposes:
+        * To create a user account
+        * To create a challenge
+        * To host a Tournament
+        * To join a tournament / challenge 
+
+        
+
+
 
  
 

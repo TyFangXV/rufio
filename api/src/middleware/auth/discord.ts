@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 import axios from "axios";
 import { decrypt } from "../../utils/encryption";
 import accountModal from '../../modal/Account';
-import { MixedAccountType } from "../../../Types";
+import { GuildType, MixedAccountType } from "../../../Types";
 
 const router = Router();
 dotenv.config();
@@ -31,6 +31,8 @@ const getAccountGuilds = async(accessToken: string) => {
                 Authorization: `Bearer ${accessToken}`
             }
         });
+
+        return data;
     }
     catch (error) {
         console.error(error);
@@ -61,8 +63,10 @@ const saveAccount = async (accountData: MixedAccountType) => {
                 guilds : filtredGuilds
         });
 
+        return DBStatus;
     } catch (error) {
-        
+        console.error(error);
+        return null;
     }
 }
 
@@ -102,6 +106,7 @@ router.get("/callback", async(req, res) => {
                 guilds
             }
 
+            console.log(saveAccount(filteredData as MixedAccountType))
             res.send(filteredData);
         }else{
             res.status(400).send("No code provided");
