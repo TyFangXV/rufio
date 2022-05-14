@@ -13,11 +13,6 @@ mongoose.connect(process.env.DB_CONNECTION as string, () => console.log('connect
 app.use(cors())
 app.use("/auth", authRouter)
 
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-})
+app.get("/", (req, res) => res.send("Hello World!"))
 
-
-app.listen(3001, () => {
-  console.log('Server is running on port 3001');
-});
+app.listen(3001, () => console.log('Server is running on port 3001'));

@@ -1,0 +1,19 @@
+.initializer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes roll{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.initializerImage{
+    animation: roll 3s linear infinite;
+}

@@ -4,12 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-api" : "cd api && yarn dev",
-    "test-frontend" : "cd website && yarn dev",
-    "test-all" : "yarn test-api && yarn test-frontend",
-    "build-api-run" : "cd api && yarn prod-build",
-    "build-site" : "cd website && yarn build",
-    "build-all" : "yarn build-api-run && yarn build-site"
+    "test-website-dev" : "cd website && yarn dev",
+    "test-api-dev" : "cd api && yarn dev"
   },
   "repository": {
     "type": "git",
