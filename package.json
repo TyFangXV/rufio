@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-website-dev" : "cd website && yarn dev",
-    "test-api-dev" : "cd api && yarn dev"
+    "boot-web-dev" : "cd website && yarn dev",
+    "boot-api-dev" : "cd api && yarn dev"
   },
   "repository": {
     "type": "git",

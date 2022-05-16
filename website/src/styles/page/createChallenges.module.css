@@ -20,10 +20,11 @@
     background-color: #00bcd4;
 }
 
-.container{
+.ChallengeMakerModalContainer{
     display: flex;
     flex-direction: column;
     margin-top: 5vh;
+    min-width: 100vw;
 }
 
 .input{
@@ -56,5 +57,11 @@
     border: none;
     padding: 0 10px;
     font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.twoWayView{
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
 }

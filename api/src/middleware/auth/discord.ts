@@ -106,7 +106,7 @@ router.get("/callback", async(req, res) => {
                 guilds
             }
 
-            console.log(saveAccount(filteredData as MixedAccountType))
+
             res.send(filteredData);
         }else{
             res.status(400).send("No code provided");
