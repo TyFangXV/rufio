@@ -1,11 +1,14 @@
-import { Input, Select, Textarea } from '@mantine/core';
+import { Button, Divider, Input, Select, Textarea } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useRef } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import { ArrowBack } from 'tabler-icons-react';
 import styles from '../../styles/page/createChallenges.module.css';
+import Settings from '../../utils/constant';
 import { AccountContext } from '../../utils/context/AccountProvider';
 
 const CreateChall: React.FC = () => {
@@ -15,18 +18,22 @@ const CreateChall: React.FC = () => {
   const [Account, setAccount]:any = useContext(AccountContext)
   const {account, guilds} = Account;
 
-  // Challenges state
-  const [challengeName, setChallengeName] = React.useState('');
-  const [challengeDescription, setChallengeDescription] = React.useState('');
-  const [challengeEndDate, setChallengeEndDate] = React.useState(tmwDate);
-  const [challengeType, setChallengeType] = React.useState('1');
+  // Challenges stats input ref
+  const challengeNameRef = useRef<HTMLInputElement>(null);
+  const challengeDescriptionRef = useRef<HTMLTextAreaElement>(null);
+  const challengeGuildRef = useRef<HTMLInputElement>(null);
+  const challengeEndDateRef = useRef<any>(null);
+  const challengeTypeRef = useRef<HTMLInputElement>(null);
+  const challengeViewModeRef = useRef<HTMLInputElement>(null);
+
 
   useEffect(() => {
     if(!account.isSignIn)
     {
-      router.push("/auth")
+      router.push("/")
     }    
   })
+
 
 
   const ChallengeMakerModal:React.FC = () => {
@@ -35,6 +42,8 @@ const CreateChall: React.FC = () => {
       <div className={styles.ChallengeMakerModalContainer}>
         <Input
           className={styles.input}
+          maxLength={45}
+          ref={challengeNameRef}
           placeholder="Enter a name for your challenge"
           required
         />
@@ -43,6 +52,7 @@ const CreateChall: React.FC = () => {
           placeholder="Details about your Game"
           label="Description"
           radius="md"
+          ref={challengeDescriptionRef}
           size="md"
           className={styles.textarea}
           required
@@ -53,28 +63,27 @@ const CreateChall: React.FC = () => {
             className={styles.select}
             placeholder="Select a Game Mode"
             label="Game Mode"
+            ref={challengeTypeRef}
             required
             defaultValue="1"
-            data={[
-              { value: '1', label: 'Tournament' },
-              { value: '2', label: 'Challenge' },
-              { value: '3', label: 'Mini-Game' },
-            ]}
+            data={Settings.gameTypes}
           />
 
           <Select
             className={styles.select}
             placeholder="Choose the Visibility"
             label="Visibility"
+            ref={challengeViewModeRef}
             required
             defaultValue="1"
-            data={[{ value: '1', label: 'public' }]}
+            data={Settings.gamePublicity}
           />
 
           <DatePicker
             label="End Date"
             defaultValue={new Date(tmwDate)}
             className={styles.select}
+            ref={challengeEndDateRef}
             required
           />
         </div>
@@ -84,6 +93,7 @@ const CreateChall: React.FC = () => {
             className={styles.select}
             placeholder="Choose a Guild"
             label="Guild"
+            ref={challengeGuildRef}
             required
             defaultValue={guilds[0].id}
             data={
@@ -96,6 +106,9 @@ const CreateChall: React.FC = () => {
             }
           />
         </div>
+
+        <Divider/>
+        <Button className={styles.button}>Preview</Button>
       </div>
     )
   }
@@ -113,13 +126,11 @@ const CreateChall: React.FC = () => {
       </div>
 
       <div className={styles.twoWayView}>
-        {
-          account.isSignedIn && (
-            <>
-               <ChallengeMakerModal/>            
-            </>
-          ) 
-        }
+         {
+           account.isSignIn && (
+            <ChallengeMakerModal/>
+           )
+         }         
       </div>
 
     </div>

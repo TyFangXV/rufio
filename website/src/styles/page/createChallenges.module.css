@@ -36,6 +36,18 @@
     margin-bottom: 20px;
 }
 
+.button{
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 15%;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
 .select{
     width: 15%;
     height: 50px;
@@ -63,5 +75,6 @@
 .twoWayView{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 0 20px;
 }
+
