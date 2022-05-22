@@ -1,9 +1,16 @@
 {
   "name": "discord-bot",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./src/index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "node .",
+    "dev": "npx nodemon --watch src --exec \"npm run start\""
+  },
   "dependencies": {
+    "@discordjs/builders": "^0.13.0",
+    "@discordjs/rest": "^0.4.1",
+    "discord-api-types": "^0.33.0",
     "discord.js": "^13.7.0",
     "dotenv": "^16.0.1",
     "uuid": "^8.3.2"
