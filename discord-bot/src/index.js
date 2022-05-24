@@ -1,7 +1,6 @@
 require('dotenv').config();
 const discord = require('discord.js');
 const fs = require('node:fs');
-const path = require('node:path');
 const instantiate = require('./discord/deplay-commands');
 const uuid = require('uuid').v4;
 const {client_id} = require("../secrets/config")
