@@ -1,0 +1,7 @@
+{
+	"hello": {
+		"scope": "javascript",
+		"prefix": "slashCommand",
+		"body": "module.exports = {\n data : new SlashCommandBuilder()\n.setName()\n.setDescription(),\nasync execute(interaction) {\n \n} \n }"
+	  }
+}
