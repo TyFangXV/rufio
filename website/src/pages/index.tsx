@@ -1,11 +1,11 @@
 import type { NextPage } from 'next';
-
+import styles from '../styles/home.module.css';
 const Home: NextPage = () => {
 
 
   return (
-    <div>
-      <h1>drex</h1>
+    <div className={styles.homeContainer}>
+      
     </div>
   );
 };
