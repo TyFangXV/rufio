@@ -3,3 +3,35 @@
     height: 100vh;
     background-color: #222831;
 }
+
+.tabs{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh;
+    margin: 0 1vw 5vh 1vw;
+    cursor: pointer;
+
+}
+
+.tabs:hover{
+    background-color: #F05454;
+    margin: 0 0 5vh 0;
+}
+
+.icon{
+    font-size:  2vw;
+    margin-right: 1vh;
+    color: white;
+}
+
+.tabContainer{
+    margin-top: 10px;
+}
+
+.tabs p{
+    color: white;
+    font-size:  1.5vw;
+    margin: 0 1vw 0 1vw;
+}

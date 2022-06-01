@@ -1,5 +1,90 @@
 .container{
-    width: 85vw;
-    height: 7vh;
+    width: 100vw;
+    height: 6vh; 
     background-color: #3D4654;
+    padding-top: 1vh;
+    display: flex;
+    justify-content: space-around;
 }
+
+.input{
+    padding-left: 10px;
+    width: 30vw;
+    height: 5vh;
+    border-radius: 15px;
+    border: none;
+    background-color: #F05454;
+    color: white;
+    outline: none;
+    font-size: 1vw;
+    margin: 0 1vw 0 1vw;
+}
+
+.input::placeholder{
+    color: white;
+    font-size: 1vw;
+    letter-spacing: .5px;
+    opacity: 75%;
+}
+
+.inputContainer{
+    position: relative;
+    text-align: center;
+}
+
+.searchIcon{
+    position: absolute;
+    justify-content: right;
+    margin: 1vh 29vw;
+    color: white;
+    font-size: 1.5vw;
+}
+
+.topbarBtn{
+    margin-top: 5px;
+    position: absolute;
+    right: 2px;
+    top: 0;
+}
+
+@keyframes shake{
+    0% { transform: rotate(0); }
+    15% { transform: rotate(5deg); }
+    30% { transform: rotate(-5deg); }
+    45% { transform: rotate(4deg); }
+    60% { transform: rotate(-4deg); }
+    75% { transform: rotate(2deg); }
+    85% { transform: rotate(-2deg); }
+    92% { transform: rotate(1deg); }
+    100% { transform: rotate(0); }
+}
+
+@keyframes opening{
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+
+.notificationBtn{
+    color : white;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+.notificationBtn:hover{
+    color: #F05454;
+    animation-name: shake;
+    animation-duration: .5s;
+}
+
+.notificationModal{
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+    min-width: 20vw;
+    min-height: 50vh;
+    border-radius: 10px; 
+    border: 1px solid black;
+    background-color: #F3F2F2;
+}
+
