@@ -1,24 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { useState } from "react";
-import key from '../../../../../key/index'
 import * as queryString from 'query-string';
 import styles from '../../styles/account.module.css';
 import { useRouter } from "next/router";
-
-const stringifiedParams = queryString.stringify({
-    client_id:key.clientID,
-    redirect_uri: 'http://localhost:3000/',
-    scope: [
-      'https://www.googleapis.com/auth/userinfo.email',
-      'https://www.googleapis.com/auth/userinfo.profile',
-    ].join(' '), // space seperated string
-    response_type: 'code',
-    access_type: 'offline',
-    prompt: 'consent',
-  });
-
-
 
 const AccountOverView:React.FC = () => {
     const [isSigned, setIsSigned] = useState(false);
@@ -33,7 +18,7 @@ const AccountOverView:React.FC = () => {
                 </div>
                 ) : (
                     <div className={styles.AuthBtn}>
-                        <button className={styles.btn} onClick={() => router.push(`https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`)}>Sign In</button>
+                        <button className={styles.btn} onClick={() => router.push(`https://github.com/login/oauth/authorize?scope=user:email&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`)}>Sign In</button>
                     </div>
                 )
             }
