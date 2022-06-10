@@ -23,27 +23,45 @@ router.get("/cb", async(req, res) => {
     }
 
     try {
+        
+
+        // access the token and get the user's profile
         const {data:Tokens} = await axios.post(accessTokenUrl, params, { headers : {'Content-Type': 'application/json'}});
 
-        
+            console.log(Tokens);
+            
         const access_token = Tokens.split("&")[0].split("=")[1];
         
         if(!access_token) {
-            return res.status(400).send("No access token provided");
+            return res.send("No access token provided").status(400);
         }
-        // exchange access token for user data
-        const userUrl = `https://api.github.com/user`;
-        const {data:user} = await axios.get(userUrl, {
+
+        const {data:user} = await axios.get(`https://api.github.com/user`, {
             headers: {
                 Authorization: `token ${access_token}`
             }
         });
 
-        res.send({user, token : encrypt(access_token)});
+        const {data:email} = await axios.get("https://api.github.com/user/emails", (
+            {
+                headers: {
+                    Authorization: `token ${access_token}`
+                }
+            }
+        ))
+
+        const purifiedData = {
+            id: user.id,
+            name: user.name,
+            email: email.length > 0 ? email[0].email : "",
+            avatar: user.avatar_url,
+            isSignedIn: true
+        }
+
+        res.send({user : purifiedData, token : encrypt(access_token)});
         
     } catch (error:any) {
-        console.log(error.response.data);
-        res.send(error.response.data.message).status(500);
+        res.status(500).send(error.response.data.message);
     }
 })
 
