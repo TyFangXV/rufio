@@ -1,14 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-
+import mongoose from 'mongoose';
 import authHandler from './router/auth';
 
 const app = express();
 dotenv.config();
 
-
-//mongoose.connect(process.env.DB_CONNECTION as string, () => console.log('connected to mongo'));
+mongoose.connect(process.env.MONGODB_URI as string, () => console.log('connected to mongo'));
 
 
 app.use(cors())

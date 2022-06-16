@@ -6,9 +6,12 @@ import {MdOutlineLocalFireDepartment, MdPerson} from "react-icons/md";
 import {GoGlobe} from "react-icons/go";
 import {IoGrid} from "react-icons/io5";
 import {IoMdSettings} from "react-icons/io";
+import { useRouter } from "next/router";
 
 
 const Nav: React.FC = () => {
+    const router = useRouter();
+
     return(
         <div className={styles.container}>
             <AccountOverView/>
@@ -23,7 +26,7 @@ const Nav: React.FC = () => {
                 <p>Catalog</p>
             </div>  
             <div className={styles.tabs}>
-                <GoGlobe className={styles.icon}/   >
+                <GoGlobe className={styles.icon}/>
                 <p>Region</p>
             </div>     
             <div className={styles.tabs}>
@@ -31,7 +34,7 @@ const Nav: React.FC = () => {
                 <p>Account</p>
             </div>      
 
-            <div className={styles.tabs}>
+            <div className={styles.tabs} onClick={() => router.push("/settings")}>
                 <IoMdSettings className={styles.icon}/>
                 <p>Settings</p>
             </div>            

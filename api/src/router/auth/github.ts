@@ -2,6 +2,7 @@ import axios from "axios";
 import { Router } from "express";
 import { config } from "dotenv";
 import {encrypt} from '../../utils/encryption';
+import linkedAccounts from "../../utils/schema/linkedAccounts";
 
 config();
 const router = Router();
@@ -55,10 +56,24 @@ router.get("/cb", async(req, res) => {
             name: user.name,
             email: email.length > 0 ? email[0].email : "",
             avatar: user.avatar_url,
-            isSignedIn: true
+            newUser: false,
+            isSignedIn: false,
         }
 
-        res.send({user : purifiedData, token : encrypt(access_token)});
+        //check if user exists in db
+        const acountExists = await linkedAccounts.findOne({id: user.id});
+        if(acountExists) {
+            res.send({user :  {...purifiedData, newUser : false}, token : encrypt(access_token)});
+        }else{
+            const newAccount = new linkedAccounts({
+                _id: user.id,
+                provider: "github",
+                email: email.length > 0 ? email[0].email : "",
+            });
+            
+            await newAccount.save();
+            res.send({user : {...purifiedData, newUser : true}, token : encrypt(access_token)});
+        }
         
     } catch (error:any) {
         res.status(500).send(error.response.data.message);

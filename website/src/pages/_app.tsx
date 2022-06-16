@@ -77,6 +77,15 @@ const Instanitiate:React.FC = () => {
              dispatch(setAccount(JSON.parse(user)));            
         }
     }
+
+
+    const loginWithToken = async () => {
+        const token = localStorage.getItem('token');
+        if(token)
+        {
+            
+        }
+    }
   
   
     const {data, isLoading, isLoadingError} = useQuery('github', async () => {
@@ -91,11 +100,17 @@ const Instanitiate:React.FC = () => {
         if (code)
         {
             const {user, token} = await loginWithCode(code as string);
+            
             if(user && token)
             {
                 dispatch(setAccount(user));
                 queryClient.cancelQueries("github");
-                router.push("/");
+                if(user.newUser)
+                {
+                    router.push("/signIn");
+                }else{
+                    router.push("/");
+                }
             }
 
             if(isLoadingError)
