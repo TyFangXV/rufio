@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import accountReducer  from "./reducers/account";
+import accountReducer  from "./reducers/linkedAccount";
+import userDataReducer from './reducers/user'
 
 const store = configureStore({
     reducer : {
-        account : accountReducer
+        account : accountReducer,
+        userData: userDataReducer
     }
 });
 

@@ -5,14 +5,13 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { useRouter } from 'next/router';
 import TopBar from '../components/nav/sub-component/topbar';
 
-import settings from '../utils/constant/settings';
 import axios from 'axios';
 import { decrypt } from '../utils/crypter';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Provider, useDispatch } from 'react-redux';
 import store from '../utils/redux/store';
-import { setAccount } from '../utils/redux/reducers/account';
+import { setAccount } from '../utils/redux/reducers/linkedAccount';
 
 const queryClient = new QueryClient()
 
@@ -59,8 +58,7 @@ const Instanitiate:React.FC = () => {
   
     // login in methods
     const loginWithCode = async (code: string) => {
-        const serverApiUrl = process.env.NODE_ENV === 'development' ? settings.apiDev : settings.apiProd;
-        const {data:UserData} = await axios.get(`${serverApiUrl}/auth/github/cb?code=${code}`)
+        const {data:UserData} = await axios.get(`/api/jsw?code=${code}`);
         let {user, token} = UserData;
   
         token =  decrypt(token);
@@ -103,6 +101,8 @@ const Instanitiate:React.FC = () => {
             
             if(user && token)
             {
+                console.log(user.id);
+                
                 dispatch(setAccount(user));
                 queryClient.cancelQueries("github");
                 if(user.newUser)
