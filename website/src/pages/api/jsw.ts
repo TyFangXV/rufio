@@ -9,7 +9,7 @@ const auth = async(req:NextApiRequest, res:NextApiResponse) => {
         if(!code) {
             return res.status(400).send("No code provided");
         }else{
-            const {data:UserData} = await axios.get(`${serverApiUrl}/auth/github/cb?code=${code}`)
+            const {data:UserData} = await axios.post(`${serverApiUrl}/v1/auth/github/cb?code=${code}`)
             return res.status(200).send(UserData);
         } 
 

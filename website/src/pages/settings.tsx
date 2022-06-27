@@ -1,11 +1,13 @@
 import { NextPage } from "next";
 import React from "react";
+import AccountOverview from "../components/settings/account-overview";
+import styles from '../styles/Setting.module.css';
 
 
 const Settings:NextPage = () => {
     return (
-        <div>
-            <h1>setting</h1>
+        <div className={styles.container}>
+            <AccountOverview/>
         </div>
     )
 }

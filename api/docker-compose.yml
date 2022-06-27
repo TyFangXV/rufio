@@ -1,0 +1,35 @@
+version: '3'
+services:
+  rufio-server:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    env_file:
+      .env
+    network_mode: mongoCluster
+    depends_on:
+      - mongo
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    container_name: redis_container
+    network_mode: mongoCluster
+    environment:
+      - REDIS_PASSWORD=drex
+  mongo:
+    image: mongo
+    ports:
+      - "64000:27017"
+    container_name: mongo_container
+    volumes:
+      - mongo-db:/data/db
+    network_mode: mongoCluster
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=drex
+      - MONGO_INITDB_ROOT_PASSWORD=drex
+volumes:
+  mongo-db:  
+  

@@ -1,0 +1,9 @@
+version: '3'
+services:
+  rufio-server:
+    volumes:
+      - /app/node_modules
+    environment:
+      - /app/.env
+      - NODE_ENV=production
+    command: npm run expose

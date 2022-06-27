@@ -3,6 +3,7 @@
 *{
  --font :  'Roboto Flex', serif;
  --font2 : 'Rokkitt', serif;
+ --font3 : 'Amiko', sans-serif;
 }
 
 body{
@@ -32,7 +33,7 @@ body{
 }
 
 .screen{
-    margin: 5vh 0 0 15vw;
+    margin: 9vh 0 0 15vw;
 }
 
 .loadingCtn{

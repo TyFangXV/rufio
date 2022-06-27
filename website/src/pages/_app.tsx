@@ -59,13 +59,10 @@ const Instanitiate:React.FC = () => {
     // login in methods
     const loginWithCode = async (code: string) => {
         const {data:UserData} = await axios.get(`/api/jsw?code=${code}`);
-        let {user, token} = UserData;
-  
-        token =  decrypt(token);
-  
-        localStorage.setItem('token', token);
+        let {user} = UserData;
+
         localStorage.setItem('user', JSON.stringify(user));
-        return {user, token};
+        return {user};
     }
 
     const loginWithLocalStorage = async () => {
@@ -97,9 +94,9 @@ const Instanitiate:React.FC = () => {
 
         if (code)
         {
-            const {user, token} = await loginWithCode(code as string);
+            const {user} = await loginWithCode(code as string);
             
-            if(user && token)
+            if(user)
             {
                 console.log(user.id);
                 
