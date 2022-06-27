@@ -1,8 +1,6 @@
 import axios from "axios";
 import { Router } from "express";
 import { config } from "dotenv";
-import session from 'express-session'
-import redisClient from "../../utils/redis";
 import localToken from '../../utils/token'
 import linkedAccounts from "../../utils/schema/linkedAccounts";
 import AccountData from "../../utils/schema/user";
@@ -101,9 +99,9 @@ router.post("/cb", async (req, res) => {
         const localTks = await localToken(user.id);
         if(!purifiedData.newUser)
         {           
-            redisClient.setEx("auth-token", 36000, JSON.stringify(purifiedData));
             res.cookie = localTks;
         }
+
         res.send({ user: { ...purifiedData, newUser: accountData === null ? true : false, isSignedIn: accountData === null ? false : true }});
 
     } catch (error: any) {

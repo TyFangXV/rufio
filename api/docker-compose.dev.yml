@@ -1,5 +1,8 @@
 version: '3'
 services:
+  nginx:
+    ports:
+      - "3001:80"
   rufio-server:
     volumes:
       - .:/app
