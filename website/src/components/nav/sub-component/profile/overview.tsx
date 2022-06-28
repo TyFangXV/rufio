@@ -10,13 +10,14 @@ import { useSelector } from "react-redux";
 const AccountOverView:React.FC = () => {
     const {account} = useSelector((state:RootState) => state.account);
     const router = useRouter();
+
     return (
         <>
             {
                 account.isSignedIn ? (
                 <div className={styles.navbar}>
                     <img src={account.avatar} alt="s" className={styles.picture}/>
-                    <p className={styles.name}>{account.name}</p>
+                    <p className={styles.name}>{account.username}</p>
                 </div>
                 ) : (
                     <div className={styles.AuthBtn}>

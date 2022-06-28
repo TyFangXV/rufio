@@ -1,16 +1,14 @@
-import axios from "axios";
 import { Request, Response, Router } from "express";
 import { config } from "dotenv";
-import {encrypt} from '../../utils/encryption';
 import linkedAccounts from "../../utils/schema/linkedAccounts";
-import AccountData from "../../utils/schema/user";
-import { model } from "mongoose";
+import AccountData, { AccountDataType } from "../../utils/schema/user";
 
 config();
 const router = Router();
 
 
 
+//endpoint to set the users custom username 
 router.get("/", async(req:Request, res:Response)=>{
     try {
         //get the data from the body
@@ -21,31 +19,19 @@ router.get("/", async(req:Request, res:Response)=>{
             return res.status(400).send("invalid request");
         }
 
-        //check if the linkedAccountID is in the database
+        //check if the linkedAccountID is in the database as well as the account data
         const isLinkedAccountValid = await linkedAccounts.findById(linkedAccountID);
         const accountData = await AccountData.findById(linkedAccountID);
         
         if(isLinkedAccountValid !== null)
         {
-   
             if(accountData !== null)
             {
-                return res.status(200).send(accountData);
-            }else if(accountData === null){
-                //save the userData to the database
-                const data = {
-                    username,
-                    linkedAccountID,
-                    provider: isLinkedAccountValid.provider,
-                    _id: isLinkedAccountValid._id
-                }
+                //update the username in the database
+                const d = await AccountData.updateOne({_id: linkedAccountID}, {username: username});
+                console.log(d);
                 
-                const userData = new AccountData(data)
-
-                await userData.save();
-
-                //send the userData to the client
-                res.status(200).send(data);                
+                return res.status(200).send(accountData);
             }else{
                 return res.status(400).send("invalid request");
             }

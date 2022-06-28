@@ -1,7 +1,17 @@
 import { model, Schema } from "mongoose";
 
 
-const AccountData = new Schema({
+export type AccountDataType =  {
+    username: string;
+    _id : string;
+    accountLevel : number;
+    provider: string;
+    email : string;
+    newUser?: boolean;
+    avatar?: string;
+    isSignedIn?: boolean;
+}
+const AccountData = new Schema<AccountDataType>({
     username : {
         type : String,
         required : true
@@ -10,9 +20,13 @@ const AccountData = new Schema({
         type: String,
         required: true,
     },
-    linkedAccountID : {
-        type: String,
+    accountLevel :{
+        type: Number,
         required: true,
+    },
+    email : {
+        type : String,
+        required : true
     },
     _id : {
         type: String,

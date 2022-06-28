@@ -11,7 +11,7 @@ const auth = async(req:NextApiRequest, res:NextApiResponse) => {
         return res.status(400).send("invalid request");
     }
     try {
-        const {data:UserData} = await axios.get(`${serverApiUrl}/v1/auth/user?username=${username}&linkedAccountID=${linkAcccountID}`);
+        const {data:UserData} = await axios.get(`${serverApiUrl}/api/auth/user?username=${username}&linkedAccountID=${linkAcccountID}`);
         res.status(200).send(UserData);
     } catch (error:any) {
         console.log(error);

@@ -51,7 +51,7 @@ const SignIn:React.FC = () => {
             {
             try {
                     setLoading(true);
-                    const {data:userData} = await axios.post("/api/psw", {username, linkAcccountID : accountData.id, provider : accountData.provider});
+                    const {data:userData} = await axios.post("/api/psw", {username, linkAcccountID : accountData._id, provider : accountData.provider});
                     
                     if(userData)
                     {
@@ -103,7 +103,7 @@ const SignIn:React.FC = () => {
                 <LoadingModal/>
             ) : (
               <div className={styles.container}>
-                <AccountView imgUrl={accountData.avatar} username={accountData.name}/>
+                <AccountView imgUrl={accountData.avatar} username={accountData.username}/>
                 <input className={styles.input} placeholder="Set a Username" onChange={(e) => setUsername(e.currentTarget.value)}/>
                 <button className={styles.btn} onClick={() =>  HandleSubmit()}>Sign In</button>
               </div>

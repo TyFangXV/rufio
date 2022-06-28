@@ -9,12 +9,14 @@ const auth = async(req:NextApiRequest, res:NextApiResponse) => {
         if(!code) {
             return res.status(400).send("No code provided");
         }else{
-            const {data:UserData} = await axios.post(`${serverApiUrl}/v1/auth/github/cb?code=${code}`)
+            const {data:UserData} = await axios.post(`${serverApiUrl}/api/auth/github/cb?code=${code}`)
             return res.status(200).send(UserData);
         } 
 
-    } catch (error) {
-        res.status(500).send(error);
+    } catch (error:any) {
+        console.log(error);
+        
+        res.status(500).send(error.messgae);
     }
 
 }

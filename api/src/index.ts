@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import v1 from './router/version/v1';
+import apiRoutes from './router/controller';
 import config from '../config'
 
 
@@ -14,7 +14,7 @@ const app = express();
 
 
 //function to set up the connection to the database
-const DBInitializatin = ()=>{
+const DBInitializatin = ()=>{  
     mongoose.connect( config.db as string)
             .then(()  => console.log('Connected to MongoDB'))
             .catch(err => {
@@ -35,6 +35,6 @@ app.use(cors({
 
 
 
-app.use("/v1", v1);
+app.use("/api", apiRoutes);
 app.get("/", (req, res) => res.send("nigerian sd's World!"))
 app.listen(3001, () => console.log('Server is running on port 3001'));

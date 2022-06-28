@@ -1,5 +1,11 @@
 import { Schema, model } from "mongoose";
 
+export type LinkedAccountsType = {
+    linkedAccountID: string;
+    provider: string;
+    _id : string;
+    email : string;
+}
 
 const LinkedAccountsSchema = new Schema({
     _id: {
@@ -7,6 +13,10 @@ const LinkedAccountsSchema = new Schema({
         required: true
     },
     provider: {
+        type: String,
+        required: true
+    },
+    linkedAccountID: {
         type: String,
         required: true
     },
