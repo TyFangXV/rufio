@@ -2,24 +2,40 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 const initialState = {
-        username: "",
-        linkedAccountID: "",
-        provider: "",
+ data : { 
+    _id : "",
+    username : "",
+    email : "",
+    avatar : "",
+    accountLevel: 0,
+    provider : "",
+    newUser : false,
+    isSignedIn : false
+ }
 }
 
 
-const userData = createSlice({
-    name: "userData",
+const accountData = createSlice({
+    name : "user",
     initialState,
-    reducers: {
-        setUserData: (state, action: PayloadAction<{ username: string, linkedAccountID: string, provider: string }>) => {
-            state = action.payload;
+    reducers : {
+        setAccount : (state, action: PayloadAction<{
+            _id : string, 
+            username : string, 
+            email : string, 
+            avatar : string, 
+            isSignedIn : 
+            boolean, 
+            newUser: boolean, 
+            accountLevel: number,
+            provider : string
+        }>) => {
+            state.data =  action.payload;
         }
     }
 }
 );
 
-export const { setUserData } = userData.actions;
+export const { setAccount } = accountData.actions;
 
-export default userData.reducer;
-
+export default accountData.reducer;

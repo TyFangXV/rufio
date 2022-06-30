@@ -6,9 +6,9 @@ import React, { useState } from "react";
 import { QueryClient, useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import styles from '../styles/signin.module.css';
-import { setAccount } from "../utils/redux/reducers/linkedAccount";
-import { setUserData } from "../utils/redux/reducers/user";
-import { RootState } from "../utils/redux/store";
+import { setAccount } from "../../utils/redux/reducers/linkedAccount";
+import { setUserData } from "../../utils/redux/reducers/user";
+import { RootState } from "../../utils/redux/store";
 
 interface AccountViewProps {
     imgUrl : string;
@@ -67,13 +67,13 @@ const SignIn:React.FC = () => {
                         queryClient.cancelQueries("github");
                         setLoading(false);
                         Router.push("/");
-                        alert("Try signing in again");
+                        alert("Signing in again");
                     }
                 } catch (error) {
                     queryClient.cancelQueries("github");
                     setLoading(false);
                     Router.push("/");
-                    alert("Try signing in again");
+                    alert("Signing in again");
                 }
                 
                 if(data)

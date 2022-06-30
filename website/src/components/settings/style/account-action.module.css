@@ -1,0 +1,30 @@
+.container{
+    margin: 15px;
+    height: 285px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font3);
+}
+
+.btn:hover{
+    background-color: #30475E;
+}
+
+.btn {
+    background-color: #F05454;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+}

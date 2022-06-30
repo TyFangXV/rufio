@@ -1,16 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { useState } from "react";
-import * as queryString from 'query-string';
 import styles from '../../styles/account.module.css';
 import { useRouter } from "next/router";
 import { RootState } from "../../../../utils/redux/store";
 import { useSelector } from "react-redux";
 
 const AccountOverView:React.FC = () => {
-    const {account} = useSelector((state:RootState) => state.account);
+    const account = useSelector((state:RootState) => state.account.data);
     const router = useRouter();
-
+    console.log("data");
+    console.log(account);
+    
+    
     return (
         <>
             {

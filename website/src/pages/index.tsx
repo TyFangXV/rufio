@@ -1,12 +1,12 @@
-import type { NextPage } from 'next';
+import React from "react";
 
 
-const Home: NextPage = () => {
-  return (
-    <div>
-      
-    </div>
-  );
-};
+const indexPage:React.FC = () => {
+    return(
+        <div>
 
-export default Home;
+        </div>
+    )
+}
+
+export default indexPage;

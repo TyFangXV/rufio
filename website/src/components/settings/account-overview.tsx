@@ -6,15 +6,23 @@ import { RootState } from "../../utils/redux/store";
 import styles from './style/AccountOverview.module.css'
 
 const AccountOverview:React.FC = () => {
-    const {account:profileData, userData} = useSelector((state:RootState) => state)
+    const profileData = useSelector((state:RootState) => state.account.data)
     return (
         <div className={styles.container}>
-            <div>
+            <div style={{paddingLeft : "10px"}}>
                 <h1>Profile</h1>
-                <p></p>
+                <p>Username : {profileData.username}</p>
+                <p>Email : {profileData.email}</p>
+                <p>Organisation : None</p>
+                <p>
+                    Account-Type: 
+                    {
+                        profileData.accountLevel === 30 && " User"
+                    }
+                </p>
             </div>
-            <div>
-                <img src={`${profileData.account.avatar}`} alt="profile" width={"230px"} height={"230px"} style={{borderRadius : "50%"}}/>
+            <div style={{paddingRight : "10px"}}>
+                <img src={`${profileData.avatar}`} alt="profile" width={"230px"} height={"230px"} style={{borderRadius : "50%"}}/>
             </div>
         </div>
     )

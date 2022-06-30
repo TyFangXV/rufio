@@ -1,139 +1,30 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import Nav from '../components/nav';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
-import { useRouter } from 'next/router';
-import TopBar from '../components/nav/sub-component/topbar';
-
-import axios from 'axios';
-import { decrypt } from '../utils/crypter';
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { Provider, useDispatch } from 'react-redux';
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
+import React from 'react';
+import AppViewHandler from './home/handler';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Provider } from 'react-redux';
 import store from '../utils/redux/store';
-import { setAccount } from '../utils/redux/reducers/linkedAccount';
-
-const queryClient = new QueryClient()
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const queryClient = new QueryClient();
+  const router = useRouter();
+
+  //check if the path is under /home or is /home
+  const isHome =
+    router.pathname === '/home' || router.pathname.includes('/home/');
   return (
     <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-            <Instanitiate/>
-            <div className={"homeContainer"}>
-            <div className='nav'>
-                <div className={"bar"}>
-                <TopBar/>
-                </div>
-                <div className={"sidebar"}>
-                    <Nav/>              
-                </div>
-            </div>
-            <div className='screen'>
-                <Component {...pageProps} />          
-            </div>
-
-            </div> 
-        </QueryClientProvider>          
+      <QueryClientProvider client={queryClient}>
+        <div>
+          {isHome && (
+            <AppViewHandler Component={Component} pageProps={pageProps} />
+          )}
+        </div>
+      </QueryClientProvider>
     </Provider>
-     
-  )
+  );
 }
 
-const Instanitiate:React.FC = () => {
-    const router = useRouter();
-    const [_pageIsLoading, setLoading] = useState<boolean>();
-    const dispatch = useDispatch();
-
-    let code:any;
-  
-    useEffect(() => {
-        //get the code from the url
-        const urlParams = new URLSearchParams(window.location.search);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        code = urlParams.get('code');        
-    })
-  
-  
-  
-    // login in methods
-    const loginWithCode = async (code: string) => {
-        const {data:UserData} = await axios.get(`/api/jsw?code=${code}`);
-        let {user} = UserData;
-
-        localStorage.setItem('user', JSON.stringify(user));
-        return {user};
-    }
-
-    const loginWithLocalStorage = async () => {
-        const user = localStorage.getItem('user');
-        if(user)
-        {
-             dispatch(setAccount(JSON.parse(user)));            
-        }
-    }
-
-
-    const loginWithToken = async () => {
-        const token = localStorage.getItem('token');
-        if(token)
-        {
-            
-        }
-    }
-  
-  
-    const {data, isLoading, isLoadingError} = useQuery('github', async () => {
-        const token = localStorage.getItem('token');
-        const user = localStorage.getItem('user');
-
-        if(token && user)
-        {   
-            loginWithLocalStorage()
-        }
-
-        if (code)
-        {
-            const {user} = await loginWithCode(code as string);
-            
-            if(user)
-            {
-                console.log(user.id);
-                
-                dispatch(setAccount(user));
-                queryClient.cancelQueries("github");
-                if(user.newUser)
-                {
-                    router.push("/signIn");
-                }else{
-                    router.push("/");
-                }
-            }
-
-            if(isLoadingError)
-            {
-                queryClient.cancelQueries("github");
-                router.push("/")
-                
-            }
-             
-            queryClient.cancelQueries("github")
-            router.push("/")
-        }
-    })
-
-    return (
-        <>
-            {
-                isLoading && (
-                    <div className="loadingCtn">
-                        <Image src={"/loading.gif"} width={100} height={100} alt="loading"/>
-                        <h1>Loading...</h1>
-                    </div>
-                )
-            }
-        </>
-    )
-}
-
-export default MyApp
+export default MyApp;
