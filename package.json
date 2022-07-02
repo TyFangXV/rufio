@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "boot-web-dev" : "cd website && yarn dev",
+    "boot-web-dev" : "cd website/view && yarn dev",
+    "boot-dash-dev" : "cd website/dashboard && yarn dev",
     "boot-api-dev" : "cd api && yarn dev",
     "boot-bot-dev" : "cd discord-bot && yarn dev"
   },
