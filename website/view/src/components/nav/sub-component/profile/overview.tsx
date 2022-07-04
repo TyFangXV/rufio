@@ -8,9 +8,6 @@ import { useSelector } from "react-redux";
 const AccountOverView:React.FC = () => {
     const account = useSelector((state:RootState) => state.account.data);
     const router = useRouter();
-    console.log("data");
-    console.log(account);
-    
     
     return (
         <>

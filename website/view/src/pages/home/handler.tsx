@@ -69,17 +69,17 @@ const Instanitiate:React.FC = () => {
         try {
             if(code)
             {
-                const {data:authData} = await axios.post(`/api/jsw`, {code});
+                const {data:authRequestRes} = await axios.post(`/api/jsw`, {code});
+                const authData = authRequestRes.data.user;
                 if(authData)
                 {
-                    localStorage.setItem('user', JSON.stringify(authData.user));
-                    console.log(authData);
+                    dispatch(setAccount(authData)); 
                     
-                    dispatch(setAccount(authData.user)); 
                     if(authData.newUser)
                     {
-                        router.push("/home/signin")
+                        router.push("/signin")
                     }else{
+                        localStorage.setItem('user', JSON.stringify(authData));
                         router.push("/home")
                     }
                 }else{

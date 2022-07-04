@@ -18,9 +18,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <div>
-          {isHome && (
+          {isHome ? (
             <AppViewHandler Component={Component} pageProps={pageProps} />
-          )}
+          ) : (
+            <Component {...pageProps} />
+          )
+        }
         </div>
       </QueryClientProvider>
     </Provider>

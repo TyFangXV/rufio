@@ -7,13 +7,13 @@ export type LinkedAccountsType = {
     email : string;
 }
 
-const LinkedAccountsSchema = new Schema({
+const LinkedAccountsSchema = new Schema<LinkedAccountsType>({
     _id: {
         type: String,
         required: true
     },
     provider: {
-        type: String,
+        type: String,   
         required: true
     },
     linkedAccountID: {

@@ -20,3 +20,8 @@ export type MixedAccountType = {
     guilds : GuildType[];
     [key:string]: any
 }
+
+export type MessageType = {
+    status : string;
+    data : any;
+}

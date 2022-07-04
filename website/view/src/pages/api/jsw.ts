@@ -11,10 +11,6 @@ const auth = async(req:NextApiRequest, res:NextApiResponse) => {
         }else{
             const apiReq = await axios.post(`${serverApiUrl}/api/auth/github/cb?code=${code}`, {withCredentials: true})
             const userData = apiReq.data;
-
-            //set the cookie 
-            console.log(apiReq.headers);
-            
             return res.status(200).send(userData);
         } 
 

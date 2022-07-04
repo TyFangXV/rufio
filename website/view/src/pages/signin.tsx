@@ -1,14 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
+import { NextPage } from "next";
 import Image from "next/image";
 import Router from "next/router";
 import React, { useState } from "react";
 import { QueryClient, useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import styles from '../styles/signin.module.css';
-import { setAccount } from "../../utils/redux/reducers/linkedAccount";
-import { setUserData } from "../../utils/redux/reducers/user";
-import { RootState } from "../../utils/redux/store";
+import { setAccount } from "../utils/redux/reducers/user";
+import { RootState } from "../utils/redux/store";
 
 interface AccountViewProps {
     imgUrl : string;
@@ -31,9 +31,9 @@ const AccountView: React.FC<AccountViewProps> = (data) => {
 
 
 
-const SignIn:React.FC = () => {
+const Signin:NextPage = () => {
     const dispatch = useDispatch();
-    const accountData = useSelector((state:RootState) => state.account.account);
+    const accountData = useSelector((state:RootState) => state.account.data);
     const [Hasclicked, setHasClicked] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
@@ -58,21 +58,20 @@ const SignIn:React.FC = () => {
                         queryClient.cancelQueries("github");
                         setLoading(false);
                         dispatch(setAccount({...accountData, newUser : false, isSignedIn : true}));
-                        dispatch(setUserData(userData));
-                        Router.push("/")
+                        Router.push("/home")
                     }
         
                     if(isLoadingError)
                     {
                         queryClient.cancelQueries("github");
                         setLoading(false);
-                        Router.push("/");
+                        Router.push("/home");
                         alert("Signing in again");
                     }
                 } catch (error) {
                     queryClient.cancelQueries("github");
                     setLoading(false);
-                    Router.push("/");
+                    Router.push("/home");
                     alert("Signing in again");
                 }
                 
@@ -97,7 +96,7 @@ const SignIn:React.FC = () => {
     }
  
     return (
-       <>
+       <div>
         {
             Hasclicked ? (
                 <LoadingModal/>
@@ -109,8 +108,8 @@ const SignIn:React.FC = () => {
               </div>
             )
         }
-       </>
+       </div>
     )
 }
 
-export default SignIn;
+export default Signin;

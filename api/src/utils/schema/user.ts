@@ -4,12 +4,15 @@ import { model, Schema } from "mongoose";
 export type AccountDataType =  {
     username: string;
     _id : string;
-    accountLevel : number;
+    role : number;
     provider: string;
     email : string;
     newUser?: boolean;
     avatar?: string;
     isSignedIn?: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+
 }
 const AccountData = new Schema<AccountDataType>({
     username : {
@@ -20,7 +23,7 @@ const AccountData = new Schema<AccountDataType>({
         type: String,
         required: true,
     },
-    accountLevel :{
+    role :{
         type: Number,
         required: true,
     },
@@ -30,6 +33,16 @@ const AccountData = new Schema<AccountDataType>({
     },
     _id : {
         type: String,
+        required: true,
+    },
+    createdAt : {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
+    updatedAt : {
+        type: Date,
+        default: Date.now,
         required: true,
     }
 }, {id: false});
