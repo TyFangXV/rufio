@@ -29,7 +29,6 @@ router.get("/", async(req:Request, res:Response)=>{
             {
                 //update the username in the database
                 const d = await AccountData.updateOne({_id: linkedAccountID}, {username: username});
-                console.log(d);
                 
                 return res.status(200).send(accountData);
             }else{

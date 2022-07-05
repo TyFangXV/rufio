@@ -15,15 +15,25 @@ router.post("/cb", async (req, res) => {
     }else{
         const githubAuth = new GithubAuth(
             process.env.GITHUB_CLIENT_ID as string,
-            process.env.GITHUB_CLIENT_SECRET as string
+            process.env.GITHUB_CLIENT_SECRET as string,
         );
 
-        const {access_token} = await (await githubAuth.getAccessToken(code as string)).data;
-
-        const userData = await githubAuth.login(access_token);
+        try {
+            const { status, data } = await githubAuth.getAccessToken(code as string);
+            if (status === "success") {
+                const userData = await githubAuth.callback(data.access_token);
+                return res.status(200).send(userData);
+            }
+        } catch (error) {
+            return res.status(500).send(error);
+        }
         
-        res.status(200).send(userData);
     }
+})
+
+
+router.post("/login", (req, res) => {
+
 })
 
 export default router;

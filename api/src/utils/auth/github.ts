@@ -55,6 +55,7 @@ class GithubAuth {
             const message:MessageType = {
               status : "error",
               data : {
+                  code : 400,
                   error : "bad_verification_code"
               }
             }
@@ -64,6 +65,7 @@ class GithubAuth {
             const message:MessageType = {
               status : "error",
               data : {
+                code : 500,
                   error : error
               }
             }
@@ -93,58 +95,121 @@ class GithubAuth {
                 }
                 }
             ))  
+
+        const userProfile = await userSchema.findById(user.id);
     
-        //A placeholder data for the user
-        let purifiedData: AccountDataType = {
-            _id: user.id,
-            username: "username",
-            email: email.length > 0 && email[0].email,
-            avatar: user.avatar_url,
-            role: 30,
-            provider: "github",
-            newUser: true,
-            isSignedIn: false,
-            createdAt: new Date,
-            updatedAt: new Date
-        }
-
-        //Create a new user
-        const userDataInitializer = new UserDataInitializer(
-            purifiedData._id,
-            purifiedData.username,
-            "github",
-            purifiedData.email,
-            30,
-            new Date,
-            new Date
-        );
-
-
-        //Save the user data
-        const userData = await userDataInitializer.initialize(purifiedData);
+        if(userProfile !== null)
+        {
+            //A placeholder data for the user
+            let purifiedData: AccountDataType = {
+                _id: user.id,
+                username: userProfile.username,
+                email: email.length > 0 && email[0].email,
+                avatar: user.avatar_url,
+                role: 30,
+                provider: "github",
+                newUser: true,
+                isSignedIn: false,
+                createdAt: new Date,
+                updatedAt: new Date
+            } 
             
-
-        //replace the placeholder data
-        purifiedData = {
-            newUser : userData.data._doc.username === "username" ? true : false,
-            isSignedIn : userData.data._doc.username === "username" ? false : true,
-            avatar : purifiedData.avatar,
-            ...userData.data._doc
-        } 
-
-            //return data
-            const message:MessageType = {
-                status : "success",
+            //replace the placeholder data
+            purifiedData = {
+                ...purifiedData,
+                newUser : purifiedData.username === "username" ? true : false,
+                isSignedIn : purifiedData.username === "username" ? false : true,
+            } 
+    
+            
+                //return data
+                const message:MessageType = {
+                    status : "success",
+                    data : {
+                        ...purifiedData,
+                    }
+                }
+                return message;
+        }else{
+            
+            return {
+                status : "error",
                 data : {
-                    ...purifiedData,
+                    code : 404,
+                    error : "User not found"
                 }
             }
-    
-            return message;
+        }
         } catch (error) {
             const message:MessageType = {
                 status : "error",
                 data : {
+                    code : 500,
+                    error
+                }
+            }
+            return message;
+        }
+    }
+
+    private setUserProfileData = async(access_token: string, userData: AccountDataType) => {
+        try {
+            //fetch the users profile data and email address
+            const {data:user} = await axios.get(`https://api.github.com/user`, {
+                headers: {
+                Authorization: `token ${access_token}`
+                }
+            });
+
+            const {data:email} = await axios.get("https://api.github.com/user/emails", (
+                {
+                headers: {
+                    Authorization: `token ${access_token}`
+                }
+                }
+            ))
+
+            const userProfile = await userSchema.findById(user.id);
+
+            if(userProfile !== null)
+            {
+                return {
+                    status : "error",
+                    data : {
+                        code : 302 ,
+                        error : "User already exists"
+                    }
+                }
+            }else{
+                //create a new user
+                const data = {
+                    ...userData,
+                    email: email.length > 0 && email[0].email,
+                    _id : user.id,
+                    avatar: user.avatar_url,
+                    provider: "github",
+                    updatedAt: new Date
+                }
+                
+                const newUser = new userSchema(data);
+
+                //save the new user
+                await newUser.save();
+
+                //return data
+                const message:MessageType = {
+                    status : "success",
+                    data : {
+                        ...data,
+                    }
+                }
+                return message;
+            }
+        } catch (error) {
+            const message:MessageType = {
+                status : "error",
+                data : {
+                    code : 500,
                     error
                 }
             }
@@ -157,7 +222,7 @@ class GithubAuth {
         function to save and generate the token that 
         will be used to authenticate all requests send by the user
     */
-    generateToken = async(user_id:string) => {
+    private generateToken = async(user_id:string) => {
         try {
             const data = {
                 _id : user_id,
@@ -190,32 +255,153 @@ class GithubAuth {
     }
 
     login = async(access_token: string) => {
-        const {data} = await this.getUserProfileData(access_token);
-        const userProfileData = data;
-        //check if its a error 
-        if(userProfileData.status !== "error")
-        {   // Set up tokens
+        const {status,data} = await this.getUserProfileData(access_token);
+
+        if(status === "success")
+        {
+            const userProfileData = data;
+            // Set up tokens
             const token = await this.generateToken(userProfileData._id);
             const message:MessageType = {
                 status : "success",
-                data : {
+                  data : {
                     user : userProfileData,
                 }
             }
 
             return message;
-        }else{
+
+            }else{
+                //check if the user is not in the db 
+                if(data.error.code === 404)
+                {
+                    const message:MessageType = {
+                        status : "error",
+                        data : {
+                            code : 404,
+                            error : "User not found"
+                        }
+                    }
+                    return message;
+                }else{
+                    const message:MessageType = {
+                        status : "error",
+                        data : {
+                            code : 500,
+                            error : data.error
+                        }
+                    }
+                    return message;
+                }
+            }            
+        }
+    
+    signup = async(access_token: string) => {
+        //create a placeholder data 
+        const userData: AccountDataType = {
+            _id : "",
+            username: "username",
+            email: "",
+            avatar: "",
+            role: 30,
+            provider: "github",
+            newUser: true,
+            isSignedIn: false,
+            createdAt: new Date,
+            updatedAt: new Date
+        }
+
+
+
+        const {status,data} = await this.setUserProfileData(access_token, userData);
+        
+        if(status === "success")
+        {
+            const userProfileData = data;
+
+            const UDI = new UserDataInitializer(
+                userProfileData._id,
+                userProfileData.username,
+                userProfileData.provider,
+                userProfileData.email,
+                userProfileData.role,
+                userProfileData.createdAt,
+                userProfileData.updatedAt,
+            );
+            await UDI.saveLinkedAccount();
+
+            // Set up tokens
+            const token = await this.generateToken(userProfileData._id);
             const message:MessageType = {
-                status : "error", 
-                data : {
-                    error : userProfileData.data.error
+                status : "success",
+                  data : {
+                    user : userProfileData,
                 }
             }
 
             return message;
-        }
 
+        }else{
+                //check if the user is not in the db 
+                if(data.error.code === 302)
+                {
+                    const message:MessageType = {
+                        status : "error",
+                        data : {
+                            code : 302,
+                            error : "User already exists"
+                        }
+                    }
+                    return message;
+                }else{
+                    const message:MessageType = {
+                        status : "error",
+                        data : {
+                            code : 500,
+                            error : data.error
+                        }
+                    }
+                    return message;
+                }
+            }
     }
+
+
+    //function to either login or sign up a user
+    callback = async(access_token:string) => {
+        try {
+            const {data:user} = await axios.get(`https://api.github.com/user`, {
+                headers: {
+                Authorization: `token ${access_token}`
+                }
+            });
+
+            //check if the user is in the db
+            const userProfile = await userSchema.findById(user.id);
+            if(userProfile !== null)
+            {
+                console.log("user found");
+                
+                const userData = await this.login(access_token);
+                return userData;
+            }else{
+                console.log("not sounf");
+                
+                const userData = await this.signup(access_token);
+                return userData;
+            }
+        } catch (error) {
+            return {
+                status : "error",
+                data : {
+                    code : 101,
+                    error : error
+                }
+            }
+        }
+    }
+
 }
+
 
 export default GithubAuth;

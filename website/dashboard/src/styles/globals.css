@@ -1,4 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100;8..144,200;8..144,300;8..144,400;8..144,500;8..144,600;8..144,700;8..144,800;8..144,900;8..144,1000&family=Rokkitt:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 *{
-  margin: 0;
-  padding: 0;
+ --font :  'Roboto Flex', serif;
+ --font2 : 'Rokkitt', serif;
+ --font3 : 'Amiko', sans-serif;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #DDDDDD;
+    overflow: hidden;
+    font-family: var(--font2);
+}
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #F05454;
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #222831;
+  }
+
+.nav{
+    display:  flex;
+    flex-direction: column;
+}
+
+.bar{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.sidebar{
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.screen{
+    margin: 9vh 0 0 15vw;
+    overflow-y: scroll;
+    height: 100vh;
+}
+
+.loadingCtn{
+    cursor: wait;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000038;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

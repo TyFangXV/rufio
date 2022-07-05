@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "boot-web-dev" : "cd website/view && yarn dev",
-    "boot-dash-dev" : "cd website/dashboard && yarn dev",
-    "boot-api-dev" : "cd api && yarn dev",
-    "boot-bot-dev" : "cd discord-bot && yarn dev"
+    "boot-web-dev": "cd website/view && yarn dev",
+    "boot-dash-dev": "cd website/dashboard && yarn dev",
+    "boot-api-dev": "cd api && yarn dev",
+    "boot-bot-dev": "cd discord-bot && yarn dev"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/TyFangXV/rufio/issues"
   },
-  "homepage": "https://github.com/TyFangXV/rufio#readme"
+  "homepage": "https://github.com/TyFangXV/rufio#readme",
+  "dependencies": {
+    "react-redux": "^8.0.2"
+  }
 }
