@@ -4,6 +4,7 @@ import tokenSchema from '../schema/token';
 import userSchema, { AccountDataType } from '../schema/user';
 import linkedAccounts, { LinkedAccountsType } from '../schema/linkedAccounts';
 import { UserDataInitializer } from './user';
+import { encrypt } from '../encryption';
 
 type Tokens = {
     access_token: string;
@@ -235,7 +236,7 @@ class GithubAuth {
             if(tokenExists !== null)
             {
                 //check if the token is expired
-                if(tokenExists.expiration > new Date().getSeconds())
+                if(new Date(tokenExists.expiration).getSeconds() > new Date().getSeconds())
                 {
                     await tokenSchema.findByIdAndUpdate(user_id, data);
                     return data;
@@ -368,7 +369,7 @@ class GithubAuth {
 
 
     //function to either login or sign up a user
-    callback = async(access_token:string) => {
+    callback = async(access_token:string):Promise<MessageType> => {
         try {
             const {data:user} = await axios.get(`https://api.github.com/user`, {
                 headers: {
@@ -380,24 +381,44 @@ class GithubAuth {
             const userProfile = await userSchema.findById(user.id);
             if(userProfile !== null)
             {
-                console.log("user found");
-                
                 const userData = await this.login(access_token);
-                return userData;
-            }else{
-                console.log("not sounf");
-                
+                return userData
+            }else{  
                 const userData = await this.signup(access_token);
-                return userData;
+                return userData
             }
         } catch (error) {
             return {
                 status : "error",
-                data : {
-                    code : 101,
-                    error : error
-                }
+                data : error
             }
+        }
+    }
+
+     generateTokenSession = async(user_id:number) =>{
+        try {
+            const token = await tokenSchema.findById(user_id);
+            if(token === null)
+            {
+                console.log("token not found");
+                return null;
+                
+            }
+
+            if(token !== null)
+            {
+                const sessionData = {
+                    token: token.token,
+                    expiration : new Date().getTime() + (1000 * 60 * 60 * 24 * 7)
+                }
+
+                return encrypt(JSON.stringify(sessionData));
+            }
+
+        } catch (error) {
+            console.log(error);
+            
+            return null;
         }
     }
 

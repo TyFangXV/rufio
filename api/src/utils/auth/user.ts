@@ -1,7 +1,8 @@
 import { AccountDataType } from "../schema/user";
 import linkedAccounts, {LinkedAccountsType} from "../schema/linkedAccounts";
+import tokenSchema, {tokenType} from "../schema/token";
 import { MessageType } from "../../../Types";
-
+import {encrypt} from '../encryption'
 export class UserDataInitializer {
     id:string;
     name:string;
@@ -53,6 +54,5 @@ export class UserDataInitializer {
             throw error;
         }
     }
-
 
 }

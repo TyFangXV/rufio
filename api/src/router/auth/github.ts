@@ -22,7 +22,9 @@ router.post("/cb", async (req, res) => {
             const { status, data } = await githubAuth.getAccessToken(code as string);
             if (status === "success") {
                 const userData = await githubAuth.callback(data.access_token);
-                return res.status(200).send(userData);
+                const authSession = await githubAuth.generateTokenSession(userData.data.user._id);
+                
+                return res.status(200).cookie("auth", authSession).send(userData);
             }
         } catch (error) {
             return res.status(500).send(error);
@@ -31,9 +33,5 @@ router.post("/cb", async (req, res) => {
     }
 })
 
-
-router.post("/login", (req, res) => {
-
-})
 
 export default router;
